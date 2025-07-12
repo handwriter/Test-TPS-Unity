@@ -28,5 +28,7 @@ namespace DefaultNamespace
         public void AddRewardAdListener(Action<string> callback) => _onRewardedAd += callback;
 
         public void RemoveRewardAdListener(Action<string> callback) => _onRewardedAd -= callback;
+        public void ShowInterAd() => GP_Ads.ShowFullscreen();
+
     }
 }

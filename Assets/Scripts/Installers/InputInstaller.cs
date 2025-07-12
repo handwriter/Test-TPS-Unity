@@ -1,3 +1,4 @@
+using GamePush;
 using UnityEngine;
 using Zenject;
 
@@ -13,8 +14,8 @@ public class InputInstaller : MonoInstaller
 
     private void BindInputManager()
     {
-        bool isMobile = false;
-        if (_isDebug && _isMobile) isMobile = true;
+        bool isMobile = GP_Device.IsMobile();
+        if (_isDebug) isMobile = _isMobile;
         if (isMobile)
         {
             Container

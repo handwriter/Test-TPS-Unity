@@ -30,11 +30,6 @@ public class SurvivourLevelManager : MonoBehaviour
         SpawnLevelEnemies();
     }
 
-    private void Start()
-    {
-        LevelManager.instance.Player.ResetToDefault();
-    }
-
     private void SpawnLevelEnemies()
     {
         _deathsCount = 0;

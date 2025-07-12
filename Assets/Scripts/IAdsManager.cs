@@ -7,5 +7,6 @@ namespace DefaultNamespace
         public void ShowRewardAd(string id);
         public void AddRewardAdListener(Action<string> callback);
         public void RemoveRewardAdListener(Action<string> callback);
+        public void ShowInterAd();
     }
 }

@@ -1,6 +1,8 @@
 using Com.LuisPedroFonseca.ProCamera2D;
 using System;
+using DefaultNamespace;
 using UnityEngine;
+using Zenject;
 
 public class Combat : MonoBehaviour
 {
@@ -88,6 +90,14 @@ public class Combat : MonoBehaviour
 
 	private int _defaultLayer;
 
+	private IAdsManager _adsManager;
+
+	[Inject]
+	private void Construct(IAdsManager adsManager)
+	{
+		_adsManager = adsManager;
+	}
+	
 	private void Awake()
 	{
 		_defaultLayer = base.gameObject.layer;
@@ -275,6 +285,7 @@ public class Combat : MonoBehaviour
 		{
 			if (IsHead())
 			{
+				_adsManager.ShowInterAd();
 				DataManager.CountPlayerDead();
 			}
 			DataManager.CountFriendlyDead();

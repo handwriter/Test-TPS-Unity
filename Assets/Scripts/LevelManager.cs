@@ -1,3 +1,4 @@
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -80,6 +81,8 @@ public class LevelManager : MonoBehaviour
 
 	private DiContainer _container;
 
+	private IAdsManager _adsManager;
+
 	public static LevelManager instance
 	{
 		get
@@ -147,10 +150,13 @@ public class LevelManager : MonoBehaviour
 
 	public event PauseEventHandler onPauseChanged;
 
+	private bool _showAd;
+	
 	[Inject]
-	private void Construct(DiContainer container)
+	private void Construct(DiContainer container, IAdsManager adsManager)
 	{
 		_container = container;
+		_adsManager = adsManager;
 	}
 
 	public static void Pause()
@@ -171,6 +177,7 @@ public class LevelManager : MonoBehaviour
 	private void Awake()
 	{
 		levelIndex = 0;
+		_showAd = false;
 		LoadLevel(0);
 	}
 
@@ -196,13 +203,14 @@ public class LevelManager : MonoBehaviour
 				if (SurviveMode)
 					LoadSurviveMode();
 				else
-					TryLoadLevel(levelIndex);
+					TryLoadLevel(levelIndex, showAd: false);
 			}
 		}
 		else if (gameState == gameStates.success)
 		{
 			if (UnityEngine.Input.GetKeyDown(KeyCode.R))
 			{
+				_showAd = false;
 				if (levelInfo.hasNextLevel)
 				{
 					TryLoadLevel(levelIndex + 1);
@@ -236,8 +244,9 @@ public class LevelManager : MonoBehaviour
 		if (player == null)
 		{
 			player = _container.InstantiatePrefabForComponent<PlayerControl>(playerPfb);
-			player.transform.position = _startPoint;
 		}
+		player.transform.position = _startPoint;
+		player.ResetToDefault();
 		pointer = UnityEngine.Object.Instantiate(pointerPfb);
 		player.SetPointer(pointer.transform);
 		GameManager.Instance.CameraManager.Init(player, pointer.transform);
@@ -445,8 +454,9 @@ public class LevelManager : MonoBehaviour
 		GameManager.Instance.UIManager.UpdateCount(teamBroCount, unsavedBroCount, targetCount);
 	}
 
-	public void TryLoadLevel(int _levelIndex, bool delay = false)
+	public void TryLoadLevel(int _levelIndex, bool delay = false, bool showAd = true)
 	{
+		_showAd = showAd;
 		if (GameManager.Instance) GameManager.Instance.UIManager.SetAdditional((int)Additionals.Default);
 		SurviveMode = false;
 		if (!readyToLoad)
@@ -471,9 +481,10 @@ public class LevelManager : MonoBehaviour
 	{
 		LoadLevel(toLoadIndex);
 	}
-
+	
 	private void LoadLevel(int _levelIndex)
 	{
+		if (_showAd) _adsManager.ShowInterAd();
 		if (GameManager.Instance) GameManager.Instance.UIManager.SetAdditional((int)Additionals.Default);
 		levelIndex = _levelIndex;
 		SceneManager.LoadScene("level" + _levelIndex.ToString(), LoadSceneMode.Single);
