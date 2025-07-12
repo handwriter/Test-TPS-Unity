@@ -7,4 +7,6 @@ public interface IInputManager
     public bool IsJump();
     public bool IsJumpStart();
     public bool IsSpawnSupport();
+    public bool IsSlow();
+    public void SendEvent(string eventName);
 }

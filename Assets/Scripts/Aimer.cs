@@ -75,7 +75,6 @@ public class Aimer : MonoBehaviour
 
 	public void SetPointer(Transform newPointer)
 	{
-		Debug.Log(newPointer);
 		pointer = newPointer;
 	}
 	

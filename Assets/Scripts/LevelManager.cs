@@ -232,8 +232,6 @@ public class LevelManager : MonoBehaviour
 		readyToLoad = false;
 		InitCount();
 		gameState = gameStates.playing;
-		Debug.Log(playerPfb);
-		Debug.Log(_container);
 		player = GameObject.FindObjectOfType<PlayerControl>();
 		if (player == null)
 		{
@@ -418,6 +416,7 @@ public class LevelManager : MonoBehaviour
 
 	public void KillABro(bool saved)
 	{
+		if (SurviveMode) return;
 		totalBroCount = totalBroCount;
 		savedBroCount = savedBroCount;
 		if (saved)
@@ -448,6 +447,7 @@ public class LevelManager : MonoBehaviour
 
 	public void TryLoadLevel(int _levelIndex, bool delay = false)
 	{
+		if (GameManager.Instance) GameManager.Instance.UIManager.SetAdditional((int)Additionals.Default);
 		SurviveMode = false;
 		if (!readyToLoad)
 		{
@@ -474,12 +474,14 @@ public class LevelManager : MonoBehaviour
 
 	private void LoadLevel(int _levelIndex)
 	{
+		if (GameManager.Instance) GameManager.Instance.UIManager.SetAdditional((int)Additionals.Default);
 		levelIndex = _levelIndex;
 		SceneManager.LoadScene("level" + _levelIndex.ToString(), LoadSceneMode.Single);
 	}
 
 	public void LoadSurviveMode()
 	{
+		if (GameManager.Instance) GameManager.Instance.UIManager.SetAdditional((int)Additionals.Survive);
 		SurviveMode = true;
 		SceneManager.LoadScene("Survive", LoadSceneMode.Single);
 	}

@@ -76,6 +76,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ea3048ca988524a85325c243154f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _config: {fileID: 11400000, guid: 5f5c63a95775c154589f6e8630f608b0, type: 2}
+  _isDebug: 1
+  _isMobile: 1
 --- !u!114 &5240140261102343860
 MonoBehaviour:
   m_ObjectHideFlags: 0

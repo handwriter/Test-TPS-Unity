@@ -15648,6 +15648,9 @@ MonoBehaviour:
   _gemsText: {fileID: 6780055088547062531}
   hudPanel: {fileID: 1791768364388438132}
   _spawnSupportLabel: {fileID: 2113086062065326943}
+  _additionals:
+  - {fileID: 9073142651811984695}
+  - {fileID: 3314910971597274701}
 --- !u!114 &1791768366284264067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32601,7 +32604,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &750048725018810023
 RectTransform:
   m_ObjectHideFlags: 0
@@ -32839,7 +32842,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7825384510873940460
 RectTransform:
   m_ObjectHideFlags: 0

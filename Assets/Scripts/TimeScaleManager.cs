@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 public class TimeScaleManager : MonoBehaviour
 {
@@ -11,6 +12,14 @@ public class TimeScaleManager : MonoBehaviour
 	private float bulletTimeFactor;
 
 	public float currentTimeScale;
+	
+	private IInputManager _input;
+
+	[Inject]
+	private void Construct(IInputManager input)
+	{
+		_input = input;
+	}
 
 	private float pauseTimeScaleFactor => (!LevelManager.Paused) ? 1 : 0;
 
@@ -24,7 +33,7 @@ public class TimeScaleManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (UnityEngine.Input.GetKey(KeyCode.LeftShift))
+		if (_input.IsSlow())
 		{
 			bulletTimeFactor = bulletTimeScale;
 		}

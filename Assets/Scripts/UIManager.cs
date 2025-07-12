@@ -43,6 +43,8 @@ public class UIManager : MonoBehaviour
 
 	[SerializeField] private GameObject _spawnSupportLabel;
 
+	[SerializeField] private GameObject[] _additionals;
+
 	private float overShowTimer;
 
 	private Color tempColor;
@@ -53,12 +55,17 @@ public class UIManager : MonoBehaviour
 
 	private ISaveLoadManager _saveLoadManager;
 	
+	private IInputManager _input;
+
+	private bool _isSupportLabelActive;
+	
 	private const string _gemsFormat = "{0}/{1}";
 
 	[Inject]
-	private void Construct(ISaveLoadManager saveLoadManager)
+	private void Construct(ISaveLoadManager saveLoadManager, IInputManager input)
 	{
 		_saveLoadManager = saveLoadManager;
+		_input = input;
 	}
 	
 	public void Init(Camera _camera)
@@ -92,7 +99,12 @@ public class UIManager : MonoBehaviour
 	{
 		var gemsCount = _saveLoadManager.GetGemsCount();
 		var targetGems = _saveLoadManager.GetTargetGems();
-		_spawnSupportLabel.SetActive(gemsCount >= targetGems);
+		_spawnSupportLabel.SetActive(gemsCount >= targetGems && targetGems != 0 && LevelManager.SurviveMode);
+		if (_isSupportLabelActive != _spawnSupportLabel.activeSelf)
+		{
+			_input.SendEvent(_spawnSupportLabel.activeSelf ? "show_support" : "hide_support");
+		}
+		_isSupportLabelActive = _spawnSupportLabel.activeSelf;
 		_gemsText.text = string.Format(_gemsFormat, new string[] {gemsCount.ToString(), targetGems.ToString()});
 		
 		if (GameManager.Instance.LevelManager.Player != null)
@@ -131,6 +143,12 @@ public class UIManager : MonoBehaviour
 		successCanvasGroup.gameObject.SetActive(value: true);
 	}
 
+	public void SetAdditional(int index)
+	{
+		for (int i = 0;i < _additionals.Length;i++)
+			_additionals[i].SetActive(index == i);
+	}
+	
 	public void ChangeTextAlpha(Text _text, float alpha)
 	{
 		tempColor = _text.color;

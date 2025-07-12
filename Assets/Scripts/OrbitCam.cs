@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using Zenject;
 
 public class OrbitCam : MonoBehaviour
 {
@@ -49,6 +50,14 @@ public class OrbitCam : MonoBehaviour
 
 	private float pan;
 
+	private IInputManager _input;
+
+	[Inject]
+	private void Construct(IInputManager input)
+	{
+		_input = input;
+	}
+	
 	private void Start()
 	{
 		Vector3 eulerAngles = base.transform.eulerAngles;
@@ -61,7 +70,7 @@ public class OrbitCam : MonoBehaviour
 	{
 		if ((bool)target)
 		{
-			if (Input.GetMouseButton(1) && !Input.GetKey(KeyCode.LeftShift))
+			if (Input.GetMouseButton(1) && !_input.IsSlow())
 			{
 				velocityX += xSpeed * UnityEngine.Input.GetAxis("Mouse X") * 0.02f;
 				velocityY += ySpeed * UnityEngine.Input.GetAxis("Mouse Y") * 0.02f;
