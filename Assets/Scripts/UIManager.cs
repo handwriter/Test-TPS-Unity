@@ -1,4 +1,5 @@
 using DefaultNamespace;
+using GamePush;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -42,6 +43,8 @@ public class UIManager : MonoBehaviour
 	private GameObject hudPanel;
 
 	[SerializeField] private GameObject _spawnSupportLabel;
+	[SerializeField] private GameObject _desktopSupportLabel;
+	[SerializeField] private GameObject _mobileSupportLabel;
 
 	[SerializeField] private GameObject[] _additionals;
 
@@ -99,6 +102,8 @@ public class UIManager : MonoBehaviour
 	{
 		var gemsCount = _saveLoadManager.GetGemsCount();
 		var targetGems = _saveLoadManager.GetTargetGems();
+		_desktopSupportLabel.SetActive(!GP_Device.IsMobile());
+		_mobileSupportLabel.SetActive(GP_Device.IsMobile());
 		_spawnSupportLabel.SetActive(gemsCount >= targetGems && targetGems != 0 && LevelManager.SurviveMode);
 		if (_isSupportLabelActive != _spawnSupportLabel.activeSelf)
 		{
