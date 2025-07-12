@@ -14,6 +14,18 @@ public class InputInstaller : MonoInstaller
 
     private void BindInputManager()
     {
+        if (!GP_Init.isReady)
+        {
+            GP_Init.OnReady += GP_InitOnOnReady; 
+        }
+        else
+        {
+            GP_InitOnOnReady();
+        }
+    }
+
+    private void GP_InitOnOnReady()
+    {
         bool isMobile = GP_Device.IsMobile();
         if (_isDebug) isMobile = _isMobile;
         if (isMobile)

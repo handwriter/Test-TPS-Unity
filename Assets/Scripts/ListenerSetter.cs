@@ -12,7 +12,7 @@ public class ListenerSetter : MonoBehaviour
 		{
 			base.transform.position = GameManager.Instance.LevelManager.Player.transform.position;
 		}
-		base.transform.rotation = Camera.main.transform.rotation;
+		if (Camera.main) base.transform.rotation = Camera.main.transform.rotation;
 		if (GameManager.Instance.LevelManager.game3CType == LevelManager.game3Ctypes.topDown)
 		{
 			base.transform.position += Vector3.up * 2f;

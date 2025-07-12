@@ -91,11 +91,14 @@ public class Combat : MonoBehaviour
 	private int _defaultLayer;
 
 	private IAdsManager _adsManager;
+	
+	private DiContainer _container;
 
 	[Inject]
-	private void Construct(IAdsManager adsManager)
+	private void Construct(IAdsManager adsManager, DiContainer container)
 	{
 		_adsManager = adsManager;
+		_container = container;
 	}
 	
 	private void Awake()
@@ -146,7 +149,7 @@ public class Combat : MonoBehaviour
 			{
 				ring.SetActive(value: false);
 			}
-			rb.constraints = RigidbodyConstraints.None;
+			// rb.constraints = RigidbodyConstraints.None;
 			rb.angularVelocity = UnityEngine.Random.insideUnitSphere * 2000f;
 			if (bloodParticle != null && footParticle != null)
 			{
@@ -161,7 +164,7 @@ public class Combat : MonoBehaviour
 		if (!actived)
 		{
 			Init();
-			rb.constraints = RigidbodyConstraints.FreezeRotation;
+			// rb.constraints = RigidbodyConstraints.FreezeRotation;
 			if (rope != null)
 			{
 				rope.SetActive(value: false);
@@ -320,7 +323,7 @@ public class Combat : MonoBehaviour
 		{
 			part.Remove();
 		}
-		rb.constraints = RigidbodyConstraints.None;
+		// rb.constraints = RigidbodyConstraints.None;
 		GetComponent<Collider>().material = GameManager.Instance.PhysicsManager.deadBodyMaterial;
 		rb.AddForce((UnityEngine.Random.insideUnitSphere + Vector3.up * 3f).normalized * 100f);
 		rb.angularVelocity = UnityEngine.Random.insideUnitSphere * 100f;
@@ -359,7 +362,7 @@ public class Combat : MonoBehaviour
 		{
 			UnityEngine.Object.Destroy(gun.gameObject);
 		}
-		gun = UnityEngine.Object.Instantiate(_gunPfb);
+		gun = _container.InstantiatePrefabForComponent<Gun>(_gunPfb);
 		gun.ownerCombat = this;
 		if (IsHead() && GameManager.Instance.LevelManager.game3CType == LevelManager.game3Ctypes.fps)
 		{

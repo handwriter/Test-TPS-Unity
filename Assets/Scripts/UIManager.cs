@@ -1,3 +1,4 @@
+using System;
 using DefaultNamespace;
 using GamePush;
 using UnityEngine;
@@ -48,6 +49,8 @@ public class UIManager : MonoBehaviour
 
 	[SerializeField] private GameObject[] _additionals;
 
+	[SerializeField] private CanvasGroup _group;
+
 	private float overShowTimer;
 
 	private Color tempColor;
@@ -64,6 +67,8 @@ public class UIManager : MonoBehaviour
 	
 	private const string _gemsFormat = "{0}/{1}";
 
+	private bool _isMobile;
+	
 	[Inject]
 	private void Construct(ISaveLoadManager saveLoadManager, IInputManager input)
 	{
@@ -82,6 +87,12 @@ public class UIManager : MonoBehaviour
 		hudPanel.SetActive(value: true);
 		over = false;
 		overShowTimer = 0f;
+		_group.alpha = 1;
+	}
+
+	private void Start()
+	{
+		_isMobile = GP_Device.IsMobile();
 	}
 
 	public void UpdateCount(int _teamCount, int _remainCount, int _targetCount)
@@ -102,8 +113,8 @@ public class UIManager : MonoBehaviour
 	{
 		var gemsCount = _saveLoadManager.GetGemsCount();
 		var targetGems = _saveLoadManager.GetTargetGems();
-		_desktopSupportLabel.SetActive(!GP_Device.IsMobile());
-		_mobileSupportLabel.SetActive(GP_Device.IsMobile());
+		_desktopSupportLabel.SetActive(!_isMobile);
+		_mobileSupportLabel.SetActive(_isMobile);
 		_spawnSupportLabel.SetActive(gemsCount >= targetGems && targetGems != 0 && LevelManager.SurviveMode);
 		if (_isSupportLabelActive != _spawnSupportLabel.activeSelf)
 		{

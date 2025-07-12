@@ -12,6 +12,7 @@ namespace DefaultNamespace
         private bool _isSlow;
         private bool _isSpawnSupport;
         private bool _isWatchAd;
+        private bool _isShoot;
         private void Start() => DontDestroyOnLoad(gameObject);
 
         public bool IsForward() => _moveJoystick.Vertical > 0;
@@ -25,6 +26,8 @@ namespace DefaultNamespace
         public bool IsSlow() => _isSlow;
 
         public bool IsSpawnSupport() => _isSpawnSupport;
+
+        public bool IsShoot() => _isShoot;
 
         public bool IsWatchAd()
         {
@@ -44,6 +47,10 @@ namespace DefaultNamespace
         public void OnAdBtnPressed() => _isWatchAd = true;
         
         public void OnAdBtnReleased() => _isWatchAd = false;
+        
+        public void OnShootBtnPressed() => _isShoot = true;
+        
+        public void OnShootBtnReleased() => _isShoot = false;
         
         public void SendEvent(string eventName)
         {

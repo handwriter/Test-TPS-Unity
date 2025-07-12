@@ -30,5 +30,7 @@ public class DesktopInputManager : IInputManager
     
     public bool IsWatchAd() => Input.GetKeyDown(KeyCode.Y);
     
+    public bool IsShoot() => Input.GetMouseButton(0);
+
     public void SendEvent(string eventName) => _canvas.SendEvent(eventName);
 }

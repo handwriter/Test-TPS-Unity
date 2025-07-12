@@ -1,5 +1,6 @@
 using FlamingCore;
 using UnityEngine;
+using Zenject;
 
 public class Gun : MonoBehaviour
 {
@@ -75,6 +76,15 @@ public class Gun : MonoBehaviour
 
 	public bool IsMeleeWeapon => isMeleeWeapon;
 
+	private IInputManager _input;
+
+	[Inject]
+	private void Construct(IInputManager input)
+	{
+		_input = input;
+	}
+	
+	
 	private void Awake()
 	{
 		if ((bool)muzzleLight)
@@ -133,7 +143,7 @@ public class Gun : MonoBehaviour
 			{
 				shootTimer += Time.deltaTime;
 			}
-			bool flag = (autoTrigger && Input.GetMouseButton(0)) || (!autoTrigger && Input.GetMouseButtonDown(0));
+			bool flag = (autoTrigger && _input.IsShoot()) || (!autoTrigger && _input.IsShoot());
 			if ((canShoot || (flag && !player.Combat.IsDead && team != 1)) && Active && shootTimer >= realShootTime)
 			{
 				ShootOneBullet();

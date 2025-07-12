@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using Zenject;
 
 namespace Com.LuisPedroFonseca.ProCamera2D.TopDownShooter
 {
@@ -18,6 +19,14 @@ namespace Com.LuisPedroFonseca.ProCamera2D.TopDownShooter
 
 		private Transform _transform;
 
+		private IInputManager _input;
+		
+		[Inject]
+		private void Construct(IInputManager input)
+		{
+			_input = input;
+		}
+		
 		private void Awake()
 		{
 			_transform = base.transform;
@@ -25,7 +34,7 @@ namespace Com.LuisPedroFonseca.ProCamera2D.TopDownShooter
 
 		private void Update()
 		{
-			if (UnityEngine.Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+			if (UnityEngine.Input.GetKeyDown(KeyCode.Space) || _input.IsShoot())
 			{
 				StartCoroutine(Fire());
 			}

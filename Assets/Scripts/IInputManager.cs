@@ -9,5 +9,6 @@ public interface IInputManager
     public bool IsSpawnSupport();
     public bool IsSlow();
     public bool IsWatchAd();
+    public bool IsShoot();
     public void SendEvent(string eventName);
 }

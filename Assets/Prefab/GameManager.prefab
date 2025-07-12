@@ -112,50 +112,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &1791768364388438109
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1791768364438769925}
-  - component: {fileID: 1791768366284263988}
-  m_Layer: 0
-  m_Name: Steam
-  m_TagString: 
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1791768364438769925
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1791768364388438109}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.698407, y: 0.5026293, z: -10.07349}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1791768364438769931}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1791768366284263988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1791768364388438109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74cc6552c4814e973be9aa3db5dc6972, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1791768364388438110
 GameObject:
   m_ObjectHideFlags: 0
@@ -15453,6 +15409,7 @@ GameObject:
   - component: {fileID: 1791768366284264017}
   - component: {fileID: 1791768366284264008}
   - component: {fileID: 1791768366284264067}
+  - component: {fileID: 8210173496648129960}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: 
@@ -15477,7 +15434,6 @@ Transform:
   - {fileID: 1791768368129757609}
   - {fileID: 1791768364438769926}
   - {fileID: 1791768364438769937}
-  - {fileID: 1791768364438769925}
   - {fileID: 1791768364438769938}
   - {fileID: 1791768364438769949}
   - {fileID: 1791768364438769943}
@@ -15690,6 +15646,7 @@ MonoBehaviour:
   _additionals:
   - {fileID: 9073142651811984695}
   - {fileID: 3314910971597274701}
+  _group: {fileID: 8210173496648129960}
 --- !u!114 &1791768366284264067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15705,6 +15662,18 @@ MonoBehaviour:
   TopDownCameraArmPfb: {fileID: 1791768366284264405, guid: c7d5e70f10c9475a9c538d7459d9dd08, type: 3}
   cameraTargetOffset: {x: 4, y: -5.5}
   renderCameraPfb: {fileID: 1791768366284264450, guid: 8dc75313cde4498aaea03d23aeab42d5, type: 3}
+--- !u!225 &8210173496648129960
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791768364388438131}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1791768364388438132
 GameObject:
   m_ObjectHideFlags: 0

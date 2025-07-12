@@ -158,15 +158,15 @@ namespace Com.LuisPedroFonseca.ProCamera2D
 			}
 			set
 			{
-				GameCamera.rect = value;
-				ProCamera2DParallax componentInChildren = GetComponentInChildren<ProCamera2DParallax>();
-				if (componentInChildren != null)
-				{
-					for (int i = 0; i < componentInChildren.ParallaxLayers.Count; i++)
-					{
-						componentInChildren.ParallaxLayers[i].ParallaxCamera.rect = value;
-					}
-				}
+				// GameCamera.rect = value;
+				// ProCamera2DParallax componentInChildren = GetComponentInChildren<ProCamera2DParallax>();
+				// if (componentInChildren != null)
+				// {
+				// 	for (int i = 0; i < componentInChildren.ParallaxLayers.Count; i++)
+				// 	{
+				// 		componentInChildren.ParallaxLayers[i].ParallaxCamera.rect = value;
+				// 	}
+				// }
 			}
 		}
 

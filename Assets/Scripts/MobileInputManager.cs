@@ -30,6 +30,8 @@ public class MobileInputManager : IInputManager
     public bool IsSlow() => _canvas.IsSlow();
 
     public bool IsWatchAd() => _canvas.IsWatchAd();
+    
+    public bool IsShoot() => _canvas.IsShoot();
 
     public void SendEvent(string eventName) => _canvas.SendEvent(eventName);
 }

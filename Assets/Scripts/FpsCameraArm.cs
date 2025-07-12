@@ -89,22 +89,22 @@ public class FpsCameraArm : MonoBehaviour
 		{
 			ads = Input.GetMouseButton(1);
 		}
-		if (LevelManager.instance.Player.Combat.Gun.IsMeleeWeapon)
-		{
-			ads = false;
-		}
-		if (ads)
-		{
-			gunPoint.position = Vector3.MoveTowards(gunPoint.position, adsgunTransform.position, adsMoveSpeed * Time.deltaTime);
-			VirtualCamera.fieldOfView = Mathf.MoveTowards(VirtualCamera.fieldOfView, startFov - adsFovGain, fovSpeed * Time.deltaTime);
-			sensitivity = Mathf.MoveTowards(sensitivity, adsSensitivity, sensitivitySpeed * Time.deltaTime);
-		}
-		else
-		{
-			gunPoint.position = Vector3.MoveTowards(gunPoint.position, normalGunTransform.position, adsMoveSpeed * Time.deltaTime);
-			VirtualCamera.fieldOfView = Mathf.MoveTowards(VirtualCamera.fieldOfView, startFov, fovSpeed * Time.deltaTime);
-			sensitivity = Mathf.MoveTowards(sensitivity, normalSensitivity, sensitivitySpeed * Time.deltaTime);
-		}
+		// if (LevelManager.instance.Player.Combat.Gun.IsMeleeWeapon)
+		// {
+		// 	ads = false;
+		// }
+		// if (ads)
+		// {
+		// 	gunPoint.position = Vector3.MoveTowards(gunPoint.position, adsgunTransform.position, adsMoveSpeed * Time.deltaTime);
+		// 	VirtualCamera.fieldOfView = Mathf.MoveTowards(VirtualCamera.fieldOfView, startFov - adsFovGain, fovSpeed * Time.deltaTime);
+		// 	sensitivity = Mathf.MoveTowards(sensitivity, adsSensitivity, sensitivitySpeed * Time.deltaTime);
+		// }
+		// else
+		// {
+		// 	gunPoint.position = Vector3.MoveTowards(gunPoint.position, normalGunTransform.position, adsMoveSpeed * Time.deltaTime);
+		// 	VirtualCamera.fieldOfView = Mathf.MoveTowards(VirtualCamera.fieldOfView, startFov, fovSpeed * Time.deltaTime);
+		// 	sensitivity = Mathf.MoveTowards(sensitivity, normalSensitivity, sensitivitySpeed * Time.deltaTime);
+		// }
 		sensitivity = Mathf.Clamp(sensitivity, normalSensitivity, adsSensitivity);
 	}
 

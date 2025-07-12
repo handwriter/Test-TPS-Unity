@@ -25,7 +25,7 @@ public class SurvivourLevelManager : MonoBehaviour
         _gemsManager = gemsManager;
     }
     
-    private void Awake()
+    private void Start()
     {
         SpawnLevelEnemies();
     }
@@ -36,7 +36,7 @@ public class SurvivourLevelManager : MonoBehaviour
         _points = Utils.Shuffle(_spawnPoints);
         for (int i = 0;i < _levels[_level];i++)
         {
-            var obj = Instantiate(_enemyPrefab);
+            var obj = _container.InstantiatePrefab(_enemyPrefab);
             obj.transform.position = ((Transform)_points.GetValue(i)).position;
             obj.GetComponent<Combat>().OnDead += OnDead;
         }
