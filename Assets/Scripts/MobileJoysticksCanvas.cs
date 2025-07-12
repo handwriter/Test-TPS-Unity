@@ -8,36 +8,30 @@ namespace DefaultNamespace
     {
         [SerializeField] private Joystick _moveJoystick;
         [SerializeField] private GameObject _supportBtn;
+        [SerializeField] private GameObject _adBtn;
         private bool _isSlow;
         private bool _isSpawnSupport;
-        private void Start()
-        {
-            DontDestroyOnLoad(gameObject);
-        }
+        private bool _isWatchAd;
+        private void Start() => DontDestroyOnLoad(gameObject);
 
-        public bool IsForward()
-        {
-            return _moveJoystick.Vertical > 0;
-        }
+        public bool IsForward() => _moveJoystick.Vertical > 0;
         
-        public bool IsBackward()
-        {
-            return _moveJoystick.Vertical < 0;
-        }
+        public bool IsBackward() => _moveJoystick.Vertical < 0;
         
-        public bool IsLeft()
-        {
-            return _moveJoystick.Horizontal < 0;
-        }
-        
-        public bool IsRight()
-        {
-            return _moveJoystick.Horizontal > 0;
-        }
+        public bool IsLeft() => _moveJoystick.Horizontal < 0;
+
+        public bool IsRight() => _moveJoystick.Horizontal > 0;
 
         public bool IsSlow() => _isSlow;
 
         public bool IsSpawnSupport() => _isSpawnSupport;
+
+        public bool IsWatchAd()
+        {
+            bool watchAd = _isWatchAd;
+            _isWatchAd = false;
+            return watchAd;
+        }
         
         public void OnSlowBtnPressed() => _isSlow = true;
         
@@ -47,12 +41,18 @@ namespace DefaultNamespace
         
         public void OnSupportBtnReleased() => _isSpawnSupport = false;
 
+        public void OnAdBtnPressed() => _isWatchAd = true;
+        
+        public void OnAdBtnReleased() => _isWatchAd = false;
+        
         public void SendEvent(string eventName)
         {
             switch (eventName)
             {
                 case "show_support": _supportBtn.SetActive(true); break;
                 case "hide_support": _supportBtn.SetActive(false); break;
+                case "show_survive_ad": _adBtn.SetActive(true); break;
+                case "hide_survive_ad": _adBtn.SetActive(false); break;
             }
         }
     }

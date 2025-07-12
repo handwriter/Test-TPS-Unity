@@ -32,6 +32,7 @@ public class InputInstaller : MonoInstaller
                 .Bind<IInputManager>()
                 .To<DesktopInputManager>()
                 .AsSingle()
+                .WithArguments(_config)
                 .NonLazy();
         }
     }

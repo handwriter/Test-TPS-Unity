@@ -34,7 +34,6 @@ public class LevelInfo : MonoBehaviour
 		
 		if (GameManager.Instance == null)
 		{
-			Debug.Log("BBBBB");
 			var gameManager = _container.InstantiatePrefabForComponent<GameManager>(gameManagerPfb);
 			gameManager.Init();
 			gameManager.LevelManager.gameMode = testGameMode;

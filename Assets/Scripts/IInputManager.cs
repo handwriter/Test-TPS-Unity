@@ -8,5 +8,6 @@ public interface IInputManager
     public bool IsJumpStart();
     public bool IsSpawnSupport();
     public bool IsSlow();
+    public bool IsWatchAd();
     public void SendEvent(string eventName);
 }

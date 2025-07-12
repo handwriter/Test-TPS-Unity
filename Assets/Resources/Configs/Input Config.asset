@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a2837b17246a704e99d49e6f9b6beaa, type: 3}
   m_Name: Input Config
   m_EditorClassIdentifier: 
+  DesktopInputCanvas: {fileID: 3612609652340075287, guid: 757e97440174f55479c434b251d81dc4, type: 3}
   MobileJoysticksCanvas: {fileID: 3612609652340075287, guid: 5e09c941eb019ac43abed1294771a224, type: 3}
