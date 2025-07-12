@@ -1,5 +1,6 @@
 using FlamingCore;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerControl : MonoBehaviour
@@ -60,6 +61,14 @@ public class PlayerControl : MonoBehaviour
 	public float MaxSpeed => maxSpeed;
 
 	public Combat Combat => combat;
+
+	private IInputManager _inputManager;
+
+	[Inject]
+	private void Construct(IInputManager inputManager)
+	{
+		_inputManager = inputManager;
+	}
 
 	private void Awake()
 	{
@@ -140,19 +149,19 @@ public class PlayerControl : MonoBehaviour
 	private void UpdateTopDownMovement()
 	{
 		Vector3 a = Vector3.zero;
-		if (UnityEngine.Input.GetKey(KeyCode.A))
+		if (_inputManager.IsLeft())
 		{
 			a += Vector3.left;
 		}
-		if (UnityEngine.Input.GetKey(KeyCode.D))
+		if (_inputManager.IsRight())
 		{
 			a += Vector3.right;
 		}
-		if (UnityEngine.Input.GetKey(KeyCode.W))
+		if (_inputManager.IsForward())
 		{
 			a += Vector3.forward;
 		}
-		if (UnityEngine.Input.GetKey(KeyCode.S))
+		if (_inputManager.IsBackward())
 		{
 			a += Vector3.back;
 		}
@@ -170,26 +179,37 @@ public class PlayerControl : MonoBehaviour
 		UpdateDash(normalized);
 	}
 
+	public void SetPointer(Transform newPointer)
+	{
+		pointer = newPointer;
+		GetComponent<Aimer>().SetPointer(newPointer);
+	}
+
+	public void ResetToDefault()
+	{
+		combat.ResetToDefault();
+	}
+	
 	private void UpdateFpsMovement()
 	{
 		Vector3 a = Vector3.zero;
-		if (UnityEngine.Input.GetKey(KeyCode.A))
-		{
-			a += Vector3.left;
-		}
-		if (UnityEngine.Input.GetKey(KeyCode.D))
-		{
-			a += Vector3.right;
-		}
-		if (UnityEngine.Input.GetKey(KeyCode.W))
-		{
-			a += Vector3.forward;
-		}
-		if (UnityEngine.Input.GetKey(KeyCode.S))
-		{
-			a += Vector3.back;
-		}
-		a = a.normalized;
+        if (_inputManager.IsLeft())
+        {
+            a += Vector3.left;
+        }
+        if (_inputManager.IsRight())
+        {
+            a += Vector3.right;
+        }
+        if (_inputManager.IsForward())
+        {
+            a += Vector3.forward;
+        }
+        if (_inputManager.IsBackward())
+        {
+            a += Vector3.back;
+        }
+        a = a.normalized;
 		float num = speed;
 		if (dashMode)
 		{
@@ -204,11 +224,11 @@ public class PlayerControl : MonoBehaviour
 			velocityTemp = (FCTool.Vector3YToZero(GameManager.Instance.CameraManager.FpsCameraArm.transform.forward).normalized * a.z + FCTool.Vector3YToZero(GameManager.Instance.CameraManager.FpsCameraArm.transform.right).normalized * a.x).normalized * num;
 			velocityTemp.y = rb.velocity.y;
 		}
-		if (UnityEngine.Input.GetKeyDown(KeyCode.Space) && checkGround)
+		if (_inputManager.IsJumpStart() && checkGround)
 		{
 			velocityTemp.y = jumpSpeed;
 		}
-		if (UnityEngine.Input.GetKey(KeyCode.Space) && floatingMode && velocityTemp.y < 0f)
+		if (_inputManager.IsJump() && floatingMode && velocityTemp.y < 0f)
 		{
 			velocityTemp.y = 0f;
 		}

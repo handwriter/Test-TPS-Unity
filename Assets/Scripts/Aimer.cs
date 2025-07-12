@@ -73,6 +73,12 @@ public class Aimer : MonoBehaviour
 		}
 	}
 
+	public void SetPointer(Transform newPointer)
+	{
+		Debug.Log(newPointer);
+		pointer = newPointer;
+	}
+	
 	public void UpdateAim()
 	{
 		if (!gameStarted)
@@ -81,7 +87,7 @@ public class Aimer : MonoBehaviour
 			{
 				gameStarted = true;
 				player = GameManager.Instance.LevelManager.Player;
-				pointer = GameManager.Instance.LevelManager.Pointer;
+				if (GameManager.Instance.LevelManager.Pointer != null)pointer = GameManager.Instance.LevelManager.Pointer;
 			}
 		}
 		else
@@ -95,6 +101,8 @@ public class Aimer : MonoBehaviour
 				base.transform.rotation = Quaternion.LookRotation(FCTool.Vector3YToZero(GameManager.Instance.LevelManager.Player.transform.position - base.transform.position), Vector3.up);
 				if (aimZonFpsMode && GameManager.Instance.LevelManager.game3CType == LevelManager.game3Ctypes.fps)
 				{
+					Debug.Log(pointer);
+					Debug.Log(GameManager.Instance.LevelManager.Player);
 					base.transform.rotation = Quaternion.LookRotation((GameManager.Instance.LevelManager.Player.transform.position - base.transform.position).normalized, Vector3.up);
 				}
 			}
@@ -108,7 +116,7 @@ public class Aimer : MonoBehaviour
 				{
 					if (!player.Combat.IsDead)
 					{
-						base.transform.rotation = Quaternion.LookRotation(FCTool.Vector3YToZero(pointer.position - base.transform.position), Vector3.up);
+						base.transform.rotation = Quaternion.LookRotation(FCTool.Vector3YToZero(LevelManager.instance.Pointer.position - base.transform.position), Vector3.up);
 					}
 				}
 				else if (aimWay == aimWays.aimMoveDirection && rigidbody != null)

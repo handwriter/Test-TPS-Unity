@@ -22,6 +22,9 @@ public class FinishZone : MonoBehaviour
 
 	public int selectIndex = 1;
 
+	public string levelPrefix = "Level";
+	public bool SurviveMode;
+
 	public List<Renderer> renderers;
 
 	public Material lockMaterial;
@@ -41,7 +44,7 @@ public class FinishZone : MonoBehaviour
 			finshObj.SetActive(value: false);
 			unfinshObj.SetActive(value: true);
 		}
-		else if (!DataManager.EverEnteredLevel("Level" + selectIndex.ToString()) && !forceUnlock)
+		else if (!DataManager.EverEnteredLevel(SurviveMode ? levelPrefix : levelPrefix + selectIndex.ToString()) && !forceUnlock)
 		{
 			locked = true;
 			text.color = lockedTextColor;
@@ -77,7 +80,10 @@ public class FinishZone : MonoBehaviour
 		{
 			GameManager.Instance.LevelManager.gameMode = gameMode;
 			GameManager.Instance.LevelManager.game3CType = game3CType;
-			GameManager.Instance.LevelManager.TryLoadLevel(selectIndex);
+			if (SurviveMode)
+				GameManager.Instance.LevelManager.LoadSurviveMode();
+			else
+				GameManager.Instance.LevelManager.TryLoadLevel(selectIndex);
 		}
 	}
 

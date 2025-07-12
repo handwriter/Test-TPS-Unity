@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 public class LevelManager : MonoBehaviour
 {
@@ -39,6 +40,8 @@ public class LevelManager : MonoBehaviour
 	[HideInInspector]
 	public LevelInfo levelInfo;
 
+	public static bool SurviveMode;
+	
 	private int levelIndex;
 
 	private int totalBroCount;
@@ -74,6 +77,8 @@ public class LevelManager : MonoBehaviour
 	private int toLoadIndex;
 
 	private bool countStarted;
+
+	private DiContainer _container;
 
 	public static LevelManager instance
 	{
@@ -142,6 +147,12 @@ public class LevelManager : MonoBehaviour
 
 	public event PauseEventHandler onPauseChanged;
 
+	[Inject]
+	private void Construct(DiContainer container)
+	{
+		_container = container;
+	}
+
 	public static void Pause()
 	{
 		Paused = true;
@@ -182,7 +193,10 @@ public class LevelManager : MonoBehaviour
 		{
 			if (UnityEngine.Input.GetKeyDown(KeyCode.R))
 			{
-				TryLoadLevel(levelIndex);
+				if (SurviveMode)
+					LoadSurviveMode();
+				else
+					TryLoadLevel(levelIndex);
 			}
 		}
 		else if (gameState == gameStates.success)
@@ -218,9 +232,16 @@ public class LevelManager : MonoBehaviour
 		readyToLoad = false;
 		InitCount();
 		gameState = gameStates.playing;
-		player = UnityEngine.Object.Instantiate(playerPfb);
-		player.transform.position = _startPoint;
+		Debug.Log(playerPfb);
+		Debug.Log(_container);
+		player = GameObject.FindObjectOfType<PlayerControl>();
+		if (player == null)
+		{
+			player = _container.InstantiatePrefabForComponent<PlayerControl>(playerPfb);
+			player.transform.position = _startPoint;
+		}
 		pointer = UnityEngine.Object.Instantiate(pointerPfb);
+		player.SetPointer(pointer.transform);
 		GameManager.Instance.CameraManager.Init(player, pointer.transform);
 		pointer.virtualCamera = GameManager.Instance.CameraManager.TopDownCameraArm.VirtualCamera;
 		GameManager.Instance.TimeScaleManager.ResetTimeScales();
@@ -427,6 +448,7 @@ public class LevelManager : MonoBehaviour
 
 	public void TryLoadLevel(int _levelIndex, bool delay = false)
 	{
+		SurviveMode = false;
 		if (!readyToLoad)
 		{
 			readyToLoad = true;
@@ -456,6 +478,12 @@ public class LevelManager : MonoBehaviour
 		SceneManager.LoadScene("level" + _levelIndex.ToString(), LoadSceneMode.Single);
 	}
 
+	public void LoadSurviveMode()
+	{
+		SurviveMode = true;
+		SceneManager.LoadScene("Survive", LoadSceneMode.Single);
+	}
+
 	private void FadeIn()
 	{
 		if (GameManager.Instance.CameraManager.TopDownCameraArm != null)
@@ -468,7 +496,10 @@ public class LevelManager : MonoBehaviour
 	{
 		if (instance != null)
 		{
-			instance.TryLoadLevel(instance.levelIndex);
+			if (SurviveMode)
+				instance.LoadSurviveMode();
+			else
+				instance.TryLoadLevel(instance.levelIndex);
 		}
 	}
 }

@@ -1,5 +1,7 @@
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class UIManager : MonoBehaviour
 {
@@ -34,8 +36,12 @@ public class UIManager : MonoBehaviour
 	[SerializeField]
 	private float overShowTime;
 
+	[SerializeField] private Text _gemsText;
+
 	[SerializeField]
 	private GameObject hudPanel;
+
+	[SerializeField] private GameObject _spawnSupportLabel;
 
 	private float overShowTimer;
 
@@ -45,10 +51,16 @@ public class UIManager : MonoBehaviour
 
 	private bool over;
 
-	private void Start()
-	{
-	}
+	private ISaveLoadManager _saveLoadManager;
+	
+	private const string _gemsFormat = "{0}/{1}";
 
+	[Inject]
+	private void Construct(ISaveLoadManager saveLoadManager)
+	{
+		_saveLoadManager = saveLoadManager;
+	}
+	
 	public void Init(Camera _camera)
 	{
 		UiCanvas.worldCamera = _camera;
@@ -78,6 +90,11 @@ public class UIManager : MonoBehaviour
 
 	private void Update()
 	{
+		var gemsCount = _saveLoadManager.GetGemsCount();
+		var targetGems = _saveLoadManager.GetTargetGems();
+		_spawnSupportLabel.SetActive(gemsCount >= targetGems);
+		_gemsText.text = string.Format(_gemsFormat, new string[] {gemsCount.ToString(), targetGems.ToString()});
+		
 		if (GameManager.Instance.LevelManager.Player != null)
 		{
 			healthBarImage.fillAmount = GameManager.Instance.LevelManager.Player.Combat.HealthPercent;

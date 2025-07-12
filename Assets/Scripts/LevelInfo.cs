@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 public class LevelInfo : MonoBehaviour
 {
@@ -20,11 +21,21 @@ public class LevelInfo : MonoBehaviour
 
 	public LevelManager.game3Ctypes testGame3CTypes;
 
+	private DiContainer _container;
+
+	[Inject]
+	private void Construct(DiContainer container)
+	{
+		_container = container;
+	}
+
 	private void Start()
 	{
+		
 		if (GameManager.Instance == null)
 		{
-			GameManager gameManager = UnityEngine.Object.Instantiate(gameManagerPfb);
+			Debug.Log("BBBBB");
+			var gameManager = _container.InstantiatePrefabForComponent<GameManager>(gameManagerPfb);
 			gameManager.Init();
 			gameManager.LevelManager.gameMode = testGameMode;
 			gameManager.LevelManager.game3CType = testGame3CTypes;

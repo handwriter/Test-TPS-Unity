@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Combat : MonoBehaviour
 {
+	public Action<Vector3> OnDead;
 	public delegate void KillAllDelegate();
 
 	[SerializeField]
@@ -85,8 +86,11 @@ public class Combat : MonoBehaviour
 
 	public float HealthPercent => Mathf.Clamp01((float)health / (float)maxHealth);
 
+	private int _defaultLayer;
+
 	private void Awake()
 	{
+		_defaultLayer = base.gameObject.layer;
 		Init();
 		KillAllStaticEvent = (KillAllDelegate)Delegate.Combine(KillAllStaticEvent, new KillAllDelegate(KillIfNotHead));
 	}
@@ -100,18 +104,33 @@ public class Combat : MonoBehaviour
 		}
 	}
 
+	public void ResetToDefault()
+	{
+		health = maxHealth;
+		gun.Active = true;
+		gun.gameObject.SetActive(value: true);
+		dead = false;
+		if (rope != null)
+		{
+			rope.SetActive(value: true);
+		}
+		base.gameObject.layer = _defaultLayer;
+	}
+	
 	private void Init()
 	{
+		health = maxHealth;
+		if (rope != null)
+		{
+			rope.SetActive(value: true);
+		}
 		if (!inited)
 		{
 			inited = true;
-			health = maxHealth;
+			
 			part = GetComponent<SnakePart>();
 			rb = GetComponent<Rigidbody>();
-			if (rope != null)
-			{
-				rope.SetActive(value: true);
-			}
+			
 			ChangeGun(gunPfb);
 			if (!IsHead() && team != 1 && ring != null)
 			{
@@ -308,6 +327,7 @@ public class Combat : MonoBehaviour
 			partEmi.rateOverDistance = 0f;
 			bloodParticle.Play();
 		}
+		OnDead?.Invoke(transform.position);
 	}
 
 	private void DeadCount()
@@ -404,6 +424,11 @@ public class Combat : MonoBehaviour
 		{
 			Hurt(25, 3, other.transform.position);
 		}
+	}
+
+	public void Heal(int value)
+	{
+		health = Mathf.Min(maxHealth, health + value);
 	}
 
 	private void OnCollisionEnter(Collision collision)
